@@ -1,6 +1,0 @@
-#include "mythtvinterface.h"
-
-MythtvInterface::MythtvInterface(Commander *commander, QObject *parent = 0) :
-    DeviceInterface(commander, parent)
-{
-}
