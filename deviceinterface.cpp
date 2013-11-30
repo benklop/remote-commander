@@ -5,12 +5,6 @@ DeviceInterface::DeviceInterface(QObject *parent) :
 {
 }
 
-QStringList * DeviceInterface::getPossibleMessages()
-{
-    return &possibleMessages;
-}
-
-
 void DeviceInterface::messageSend(QString message)
 {
 }

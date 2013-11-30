@@ -9,13 +9,12 @@ class DeviceInterface : public QObject
     Q_OBJECT
 public:
     explicit DeviceInterface(QObject *parent = 0);
-    QStringList * getPossibleMessages();
 signals:
     void messageReceive(QString message);
 public slots:
     virtual void messageSend(QString message);
 protected:
-    QStringList possibleMessages;
+
 public:
 
 };
