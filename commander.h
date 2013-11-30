@@ -2,6 +2,9 @@
 #define COMMANDER_H
 
 #include <QObject>
+#include <QSettings>
+#include <QList>
+#include "deviceinterface.h"
 
 class Commander : public QObject
 {
@@ -13,6 +16,12 @@ signals:
     
 public slots:
     void doCommand(QString commandName);
+
+private:
+    bool readConfig();
+    bool writeConfig();
+    QSettings *settings;
+    QList<DeviceInterface*> devices;
 
 };
 

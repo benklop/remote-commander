@@ -4,11 +4,11 @@
 #include "deviceinterface.h"
 #include <QTcpSocket>
 
-class MythtvInterface : public DeviceInterface
+class MythTVInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit MythtvInterface(Commander *commander, QString mythTvHost = "localhost", QObject *parent = 0);
+    explicit MythTVInterface(QString mythTvHost = "localhost", QObject *parent = 0);
 
 signals:
 

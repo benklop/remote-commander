@@ -1,12 +1,12 @@
 #include "samsunginterface.h"
 
-SamsungInterface::SamsungInterface(Commander *commander, QObject *parent) :
-    DeviceInterface(commander, parent)
+SamsungInterface::SamsungInterface(QString serialPort, QObject *parent) :
+    DeviceInterface(parent)
 {
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setFlowControl(QSerialPort::NoFlowControl);
-    serial->setPortName("/dev/ttyAMA0");
+    serial->setPortName(serialPort);
     serial->open(serial->ReadWrite);
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(getMessage()));

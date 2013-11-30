@@ -26,11 +26,13 @@ SOURCES += main.cpp \
     samsunginterface.cpp \
     commander.cpp \
     deviceinterface.cpp \
-    mythtvinterface.cpp
+    mythtvinterface.cpp \
+    networkinterface.cpp
 
 HEADERS += \
     lircinterface.h \
     samsunginterface.h \
     commander.h \
     deviceinterface.h \
-    mythtvinterface.h
+    mythtvinterface.h \
+    networkinterface.h

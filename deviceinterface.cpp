@@ -1,9 +1,8 @@
 #include "deviceinterface.h"
 
-DeviceInterface::DeviceInterface(Commander *commander, QObject *parent) :
+DeviceInterface::DeviceInterface(QObject *parent) :
     QObject(parent)
 {
-    this->commander = commander;
 }
 
 QStringList * DeviceInterface::getPossibleMessages()

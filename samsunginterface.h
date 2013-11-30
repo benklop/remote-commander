@@ -13,7 +13,7 @@ class SamsungInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit SamsungInterface(Commander *commander, QObject *parent = 0);
+    explicit SamsungInterface(QString serialPort, QObject *parent = 0);
 
 signals:
 
