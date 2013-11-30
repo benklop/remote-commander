@@ -1,8 +1,8 @@
 #include "lircinterface.h"
 #include <QStringList>
 
-LircInterface::LircInterface(QString remote, QObject *parent) :
-    DeviceInterface(parent)
+LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
+    DeviceInterface(name, parent)
 {
     this->remote = remote;
 

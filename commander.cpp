@@ -2,6 +2,7 @@
 #include "lircinterface.h"
 #include "mythtvinterface.h"
 #include "samsunginterface.h"
+#include "networkinterface.h"
 
 /*
  *commander object initiates the series of commands called for in the config file
@@ -24,19 +25,20 @@ bool Commander::readConfig()
     bool retVal = true;
     //first set up remotes
     settings->beginGroup("Devices");
-    foreach(const QString device, settings->childKeys())
+    foreach(const QString deviceName, settings->childKeys())
     {
-        //device contains the device's name, which will be the group name containing that device's settings. The value is that device's type.
-        //currently there are 'lirc', 'samsung', 'mythtv', and 'network'. 'network' listens on the port in the value.
+        //deviceName contains the device's name, which will be the group name containing that device's settings. The value is that device's type.
+        //currently there are 'lirc', 'samsung', 'mythtv', and 'network'.
 
-        QString currentDevice = settings->value(device).toString();
+        QString currentDevice = settings->value(deviceName).toString();
 
         if(currentDevice == "lirc")
         {
             //init an LIRC device
             settings->endGroup();
-            settings->beginGroup(device);
-            devices.append(new LircInterface(settings->value("remote").toString(), this));
+            settings->beginGroup(deviceName);
+            devices.append(new LircInterface(deviceName, settings->value("remote").toString(), this));
+
             settings->endGroup();
             settings->beginGroup("Devices");
 
@@ -45,8 +47,8 @@ bool Commander::readConfig()
         {
             //get parameters for and init a samsung TV
             settings->endGroup();
-            settings->beginGroup(device);
-            devices.append(new SamsungInterface(settings->value("remote", "/dev/ttyAMA0").toString(), this));
+            settings->beginGroup(deviceName);
+            devices.append(new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
@@ -54,19 +56,24 @@ bool Commander::readConfig()
         {
             //get parameters for and init a mythTV frontend
             settings->endGroup();
-            settings->beginGroup(device);
-            devices.append(new MythTVInterface(settings->value("remote", "localhost").toString(), this));
+            settings->beginGroup(deviceName);
+            devices.append(new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
         else if(currentDevice == "network")
         {
             //get parameters for and init a network listening socket
+            settings->endGroup();
+            settings->beginGroup(deviceName);
+            devices.append(new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this));
+            settings->endGroup();
+            settings->beginGroup("Devices");
         }
         else
         {
             //specified invalid device type
-            qWarning() << "Remote type \"" << device << "\" is not a valid remote type";
+            qWarning() << "Remote type \"" << currentDevice << "\" is not a valid remote type";
             retVal = false;
         }
     }

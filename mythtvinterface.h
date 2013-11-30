@@ -8,7 +8,7 @@ class MythTVInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit MythTVInterface(QString mythTvHost = "localhost", QObject *parent = 0);
+    explicit MythTVInterface(QString name, QString mythTvHost = "localhost", QObject *parent = 0);
 
 signals:
 

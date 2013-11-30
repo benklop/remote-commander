@@ -1,8 +1,8 @@
 #include "networkinterface.h"
 
 //listening address and port are specified as address:port, or default to 0.0.0.0:51328
-NetworkInterface::NetworkInterface(QString address, QObject *parent) :
-    DeviceInterface(parent)
+NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
+    DeviceInterface(name, parent)
 {
     server = new QTcpServer(this);
     QStringList addr = address.split(":");

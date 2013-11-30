@@ -1,7 +1,7 @@
 #include "samsunginterface.h"
 
-SamsungInterface::SamsungInterface(QString serialPort, QObject *parent) :
-    DeviceInterface(parent)
+SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *parent) :
+    DeviceInterface(name, parent)
 {
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
@@ -37,9 +37,9 @@ void SamsungInterface::getMessage()
 
 void SamsungInterface::loadHash()
 {
-    //unsigned char* charstar[4] = {0x00,0x00,0x00,0x02};
     codes.insert("power_on",        mkArray({0x00,0x00,0x00,0x02}));
     codes.insert("power_off",       mkArray({0x00,0x00,0x00,0x01}));
+    codes.insert("power_toggle",    mkArray({0x00,0x00,0x00,0x00}));
     codes.insert("source_tv",       mkArray({0x0a,0x00,0x00,0x00}));
     codes.insert("source_hdmi_1",   mkArray({0x0a,0x00,0x05,0x00}));
     codes.insert("source_hdmi_2",   mkArray({0x0a,0x00,0x05,0x01}));

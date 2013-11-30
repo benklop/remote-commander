@@ -7,7 +7,7 @@ class NetworkInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit NetworkInterface(QString address = "0.0.0.0:51328", QObject *parent = 0);
+    explicit NetworkInterface(QString name, QString address = "0.0.0.0:51328", QObject *parent = 0);
     
 signals:
     

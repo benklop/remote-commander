@@ -1,7 +1,7 @@
 #include "mythtvinterface.h"
 
-MythTVInterface::MythTVInterface(QString mythTvHost, QObject *parent) :
-    DeviceInterface(parent)
+MythTVInterface::MythTVInterface(QString name, QString mythTvHost, QObject *parent) :
+    DeviceInterface(name, parent)
 {
     mythSocket = new QTcpSocket(this);
     mythSocket->connectToHost(mythTvHost,6546);

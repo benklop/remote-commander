@@ -1,10 +1,16 @@
 #include "deviceinterface.h"
 
-DeviceInterface::DeviceInterface(QObject *parent) :
+DeviceInterface::DeviceInterface(QString name, QObject *parent) :
     QObject(parent)
 {
+    this->name = name;
 }
 
 void DeviceInterface::messageSend(QString message)
 {
+}
+
+QString DeviceInterface::getName()
+{
+    return name;
 }

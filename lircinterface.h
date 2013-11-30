@@ -9,7 +9,7 @@ class LircInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit LircInterface(QString remote, QObject *parent = 0);
+    explicit LircInterface(QString name, QString remote, QObject *parent = 0);
     
 signals:
 
