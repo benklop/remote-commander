@@ -1,4 +1,5 @@
 #include "samsunginterface.h"
+#include <QDebug>
 
 SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *parent) :
     DeviceInterface(name, parent)
@@ -29,6 +30,7 @@ void SamsungInterface::getMessage()
 {
     QByteArray message = serial->readAll();
     //do something for each char
+    qDebug() << "received response from Samsung" << message;
     foreach(char ch, message)
     {
         //each char

@@ -10,7 +10,7 @@ class DeviceInterface : public QObject
 public:
     explicit DeviceInterface(QString name, QObject *parent = 0);
 signals:
-    void messageReceive(QString message);
+    void messageReceive(QString name, QString message);
 public slots:
     virtual void messageSend(QString message);
 protected:

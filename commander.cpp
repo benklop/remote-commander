@@ -57,7 +57,7 @@ bool Commander::readConfig()
             //get parameters for and init a mythTV frontend
             settings->endGroup();
             settings->beginGroup(deviceName);
-            devices.append(new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), this));
+            devices.append(new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
@@ -77,6 +77,26 @@ bool Commander::readConfig()
             retVal = false;
         }
     }
+    settings->endGroup();
+
+    //load up macros
+    settings->beginGroup("Macros");
+    foreach(QString key, settings->childKeys())
+    {
+
+    }
+    settings->endGroup();
+
+    //load up device sections
+    foreach(DeviceInterface* device, devices)
+    {
+        QString deviceName = device->getName();
+        settings->beginGroup(deviceName);
+        //load up lines
+
+        settings->endGroup();
+    }
+
     return retVal;
 }
 

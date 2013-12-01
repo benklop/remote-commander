@@ -1,5 +1,6 @@
 #include "lircinterface.h"
 #include <QStringList>
+#include <QDebug>
 
 LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
     DeviceInterface(name, parent)
@@ -26,7 +27,7 @@ void LircInterface::commandReceived()
 
         //process each command, split into its components.
         QStringList components = command.split(' ');
-        //int repeatCount = components.at(1).toInt();
+        int repeatCount = components.at(1).toInt();
         QString buttonName = components.at(2);
         QString remoteName = components.at(3);
 
@@ -34,10 +35,10 @@ void LircInterface::commandReceived()
         {
 
             //for the moment let's only worry about the first press, no a button that's been held down
-            //if(repeatCount.toInt() == 0)
-            //{
-                emit messageReceive(buttonName);
-            //}
+            if(repeatCount == 0)
+            {
+                emit messageReceive(name, buttonName);
+            }
         }
     }
 }
