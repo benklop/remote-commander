@@ -14,7 +14,7 @@ Commander::Commander(QObject *parent) :
     readConfig();
 }
 
-void Commander::doCommand(QString commandName)
+void Commander::doCommand(QString DeviceName, QString commandName)
 {
 
 }
@@ -83,7 +83,8 @@ bool Commander::readConfig()
     settings->beginGroup("Macros");
     foreach(QString key, settings->childKeys())
     {
-
+        QStringList value = settings->value(key).toString().split(',');
+        actions.insert(key,value);
     }
     settings->endGroup();
 
@@ -92,8 +93,11 @@ bool Commander::readConfig()
     {
         QString deviceName = device->getName();
         settings->beginGroup(deviceName);
-        //load up lines
-
+        foreach(QString key, settings->childKeys())
+        {
+            QStringList value = settings->value(key).toString().split(',');
+            actions.insert(key,value);
+        }
         settings->endGroup();
     }
 

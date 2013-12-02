@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QList>
 #include "deviceinterface.h"
+#include "macroaction.h"
 
 class Commander : public QObject
 {
@@ -15,13 +16,16 @@ public:
 signals:
     
 public slots:
-    void doCommand(QString commandName);
+    void doCommand(QString DeviceName, QString commandName);
 
 private:
     bool readConfig();
     bool writeConfig();
     QSettings *settings;
     QList<DeviceInterface*> devices;
+    QHash<QString, MacroAction> actions; //list of lists of actions to take
+    QList<QString> modes;
+    QString currentMode;
 
 };
 

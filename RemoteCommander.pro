@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     deviceinterface.cpp \
     mythtvinterface.cpp \
     networkinterface.cpp \
-    magicPacket.cpp
+    magicPacket.cpp \
+    macroaction.cpp
 
 HEADERS += \
     lircinterface.h \
@@ -37,4 +38,5 @@ HEADERS += \
     deviceinterface.h \
     mythtvinterface.h \
     networkinterface.h \
-    magicPacket.h
+    magicPacket.h \
+    macroaction.h
