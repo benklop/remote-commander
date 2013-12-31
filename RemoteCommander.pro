@@ -3,6 +3,7 @@
 # Project created by QtCreator 2013-11-23T22:39:31
 #
 #-------------------------------------------------
+CONFIG += serialport
 
 QT       += core \
             network
@@ -11,7 +12,6 @@ QT       -= gui
 
 TARGET = RemoteCommander
 CONFIG   += console \
-            serialport \
             c++11
 
 CONFIG   -= app_bundle
