@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QList>
+#include <QDebug>
 #include "deviceinterface.h"
 #include "macroaction.h"
 
@@ -16,7 +17,16 @@ public:
 signals:
     
 public slots:
-    void doCommand(QString DeviceName, QString commandName);
+    void doCommand(QString deviceName, QString commandName);
+    void doCommand(QString directive)
+    {
+        if(!directive.contains(":"))
+        {
+            qCritical() << "directive \"" + directive + "\" does not contain \':\' to separate device from command" ;
+        }
+        QStringList cmd = directive.split(":");
+        doCommand(cmd.at(0),cmd.at(1));
+    }
 
 private:
     bool readConfig();

@@ -14,10 +14,12 @@ Commander::Commander(QObject *parent) :
     readConfig();
 }
 
-void Commander::doCommand(QString DeviceName, QString commandName)
+void Commander::doCommand(QString deviceName, QString commandName)
 {
 
 }
+
+
 
 bool Commander::readConfig()
 {
