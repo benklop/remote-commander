@@ -5,6 +5,7 @@ SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *pa
 {
     qDebug() << "creating Samsung interface" << name;
 
+    loadHash();
     serial = new QSerialPort(this);
     serial->setPortName(serialPort);
     serial->open(serial->ReadWrite);
@@ -16,7 +17,13 @@ SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *pa
 
 void SamsungInterface::messageSend(QString message)
 {
+    if(!codes.contains(message))
+    {
+        qDebug() << "no known command" << message << "for samsung";
+        return;
+    }
     QByteArray code = codes.value(message);
+    qDebug() << "sending message" << message << "to device" << name << "with code" << code.toHex();
     QByteArray pre;
     pre.append(0x08);
     pre.append(0x22);
@@ -25,6 +32,7 @@ void SamsungInterface::messageSend(QString message)
     command.append(code);
     command.append(csum(command));
     serial->write(command);
+    qDebug() << "wrote command" << command.toHex();
 }
 
 //load the data out of the port
@@ -41,17 +49,17 @@ void SamsungInterface::getMessage()
 
 void SamsungInterface::loadHash()
 {
-    codes.insert("power_on",        mkArray({0x00,0x00,0x00,0x02}));
-    codes.insert("power_off",       mkArray({0x00,0x00,0x00,0x01}));
-    codes.insert("power_toggle",    mkArray({0x00,0x00,0x00,0x00}));
-    codes.insert("source_tv",       mkArray({0x0a,0x00,0x00,0x00}));
-    codes.insert("source_hdmi_1",   mkArray({0x0a,0x00,0x05,0x00}));
-    codes.insert("source_hdmi_2",   mkArray({0x0a,0x00,0x05,0x01}));
-    codes.insert("source_hdmi_3",   mkArray({0x0a,0x00,0x05,0x02}));
-    codes.insert("source_hdmi_4",	mkArray({0x0a,0x00,0x05,0x03}));
-    codes.insert("source_component",mkArray({0x0a,0x00,0x03,0x00}));
-    codes.insert("size_16x9",       mkArray({0x0b,0x0a,0x01,0x00}));
-    codes.insert("size_fit",		mkArray({0x0b,0x0a,0x01,0x05}));
-    codes.insert("external_speaker",mkArray({0x0c,0x07,0x00,0x01}));
-    codes.insert("internal_speaker",mkArray({0x0c,0x07,0x00,0x00}));
+    codes.insert("power_on",        QByteArray::fromHex("00 00 00 02"));
+    codes.insert("power_off",       QByteArray::fromHex("00 00 00 01"));
+    codes.insert("power_toggle",    QByteArray::fromHex("00 00 00 00"));
+    codes.insert("source_tv",       QByteArray::fromHex("0a 00 00 00"));
+    codes.insert("source_hdmi_1",   QByteArray::fromHex("0a 00 05 00"));
+    codes.insert("source_hdmi_2",   QByteArray::fromHex("0a 00 05 01"));
+    codes.insert("source_hdmi_3",   QByteArray::fromHex("0a 00 05 02"));
+    codes.insert("source_hdmi_4",	QByteArray::fromHex("0a 00 05 03"));
+    codes.insert("source_component",QByteArray::fromHex("0a 00 03 00"));
+    codes.insert("size_16x9",       QByteArray::fromHex("0b 0a 01 00"));
+    codes.insert("size_fit",		QByteArray::fromHex("0b 0a 01 05"));
+    codes.insert("external_speaker",QByteArray::fromHex("0c 07 00 01"));
+    codes.insert("internal_speaker",QByteArray::fromHex("0c 07 00 00"));
 }

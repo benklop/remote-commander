@@ -43,15 +43,6 @@ private:
 
     void loadHash();
 
-    static QByteArray mkArray(const std::initializer_list<u_int8_t>& data) {
-        return mkArray(data.begin());
-    }
-
-    static QByteArray mkArray(const u_int8_t *data) {
-        QByteArray thisData = reinterpret_cast<const char*>(data);
-        return thisData;
-    }
-
 };
 
 #endif // SAMSUNGINTERFACE_H
