@@ -5,7 +5,7 @@
 NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
     DeviceInterface(name, parent)
 {
-    qDebug() << "creating Network interface";
+    qDebug() << "creating Network interface" << name;
 
     server = new QTcpServer(this);
     QStringList addr = address.split(":");

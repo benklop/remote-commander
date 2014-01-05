@@ -5,7 +5,7 @@
 LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
     DeviceInterface(name, parent)
 {
-    qDebug() << "creating LIRC interface";
+    qDebug() << "creating LIRC interface" << name;
 
     this->remote = remote;
 
