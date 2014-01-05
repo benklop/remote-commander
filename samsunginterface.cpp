@@ -1,5 +1,4 @@
 #include "samsunginterface.h"
-#include <QDebug>
 
 SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *parent) :
     DeviceInterface(name, parent)
@@ -25,6 +24,7 @@ void SamsungInterface::messageSend(QString message)
     command.append(pre);
     command.append(code);
     command.append(csum(command));
+    serial->write(command);
 }
 
 //load the data out of the port
