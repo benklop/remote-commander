@@ -31,7 +31,7 @@ bool Commander::readConfig(QString configFile)
         qWarning() << "Config file '" + configFile + "' does not exist.";
         return false;
     }
-    qDebug() << "reading config file";
+    qDebug() << "reading config file" << configFile;
     settings = new QSettings(configFile, QSettings::IniFormat, this);
     bool retVal = true;
     //first set up remotes

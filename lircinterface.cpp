@@ -1,6 +1,5 @@
 #include "lircinterface.h"
 #include <QStringList>
-#include <QDebug>
 
 LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
     DeviceInterface(name, parent)

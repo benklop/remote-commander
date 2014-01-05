@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "networkinterface.h"
 
 //listening address and port are specified as address:port, or default to 0.0.0.0:51328

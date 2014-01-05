@@ -1,4 +1,5 @@
 #include "deviceinterface.h"
+#include <QDebug>
 
 DeviceInterface::DeviceInterface(QString name, QObject *parent) :
     QObject(parent)
