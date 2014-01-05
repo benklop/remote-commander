@@ -33,7 +33,7 @@ private:
     bool readConfig(QString configFile);
     bool writeConfig();
     QSettings *settings;
-    QList<DeviceInterface*> devices;
+    QHash<QString, DeviceInterface*> devices;
     QHash<QString, QStringList> actions; //list of lists of actions to take
     QList<QString> modes;
     QString currentMode;

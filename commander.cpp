@@ -47,7 +47,7 @@ bool Commander::readConfig(QString configFile)
             //init an LIRC device
             settings->endGroup();
             settings->beginGroup(deviceName);
-            devices.append(new LircInterface(deviceName, settings->value("remote").toString(), this));
+            devices.insert(deviceName, new LircInterface(deviceName, settings->value("remote").toString(), this));
 
             settings->endGroup();
             settings->beginGroup("Devices");
@@ -58,7 +58,7 @@ bool Commander::readConfig(QString configFile)
             //get parameters for and init a samsung TV
             settings->endGroup();
             settings->beginGroup(deviceName);
-            devices.append(new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this));
+            devices.insert(deviceName, new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
@@ -67,7 +67,7 @@ bool Commander::readConfig(QString configFile)
             //get parameters for and init a mythTV frontend
             settings->endGroup();
             settings->beginGroup(deviceName);
-            devices.append(new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this));
+            devices.insert(deviceName, new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
@@ -76,7 +76,7 @@ bool Commander::readConfig(QString configFile)
             //get parameters for and init a network listening socket
             settings->endGroup();
             settings->beginGroup(deviceName);
-            devices.append(new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this));
+            devices.insert(deviceName, new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this));
             settings->endGroup();
             settings->beginGroup("Devices");
         }
