@@ -17,7 +17,8 @@ Commander::Commander(QString configFile, QObject *parent) :
 
 void Commander::doCommand(QString deviceName, QString commandName)
 {
-
+    DeviceInterface *device = devices.value(deviceName);
+    device->messageSend(commandName);
 }
 
 
