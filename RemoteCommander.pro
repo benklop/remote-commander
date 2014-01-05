@@ -6,7 +6,8 @@
 CONFIG += serialport
 
 QT       += core \
-            network
+            network \
+            serialport
 
 QT       -= gui
 
