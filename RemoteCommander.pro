@@ -40,3 +40,6 @@ HEADERS += \
     networkinterface.h \
     magicPacket.h \
     macroaction.h
+
+OTHER_FILES += \
+    configfile.conf
