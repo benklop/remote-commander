@@ -43,4 +43,5 @@ HEADERS += \
     macroaction.h
 
 OTHER_FILES += \
-    configfile.conf
+    configfile.conf \
+    README.md
