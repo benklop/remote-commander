@@ -3,6 +3,7 @@
 #include "mythtvinterface.h"
 #include "samsunginterface.h"
 #include "networkinterface.h"
+#include <QFile>
 
 /*
  *commander object initiates the series of commands called for in the config file
@@ -23,6 +24,12 @@ void Commander::doCommand(QString deviceName, QString commandName)
 
 bool Commander::readConfig(QString configFile)
 {
+    QFile config(configFile);
+    if(!config.exists())
+    {
+        qWarning() << "Config file /'" + configFile + "/' does not exist.";
+        return false;
+    }
     qDebug() << "reading config file";
     settings = new QSettings(configFile, QSettings::IniFormat, this);
     bool retVal = true;
