@@ -27,7 +27,7 @@ bool Commander::readConfig(QString configFile)
     QFile config(configFile);
     if(!config.exists())
     {
-        qWarning() << "Config file /'" + configFile + "/' does not exist.";
+        qWarning() << "Config file '" + configFile + "' does not exist.";
         return false;
     }
     qDebug() << "reading config file";
