@@ -7,10 +7,10 @@ SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *pa
     qDebug() << "creating Samsung interface";
 
     serial = new QSerialPort(this);
-    serial->setBaudRate(QSerialPort::Baud9600);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
     serial->setPortName(serialPort);
     serial->open(serial->ReadWrite);
+    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(getMessage()));
 }
