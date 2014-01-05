@@ -8,10 +8,10 @@
  *commander object initiates the series of commands called for in the config file
  */
 
-Commander::Commander(QObject *parent) :
+Commander::Commander(QString configFile, QObject *parent) :
     QObject(parent)
 {
-    readConfig();
+    readConfig(configFile);
 }
 
 void Commander::doCommand(QString deviceName, QString commandName)
@@ -21,9 +21,10 @@ void Commander::doCommand(QString deviceName, QString commandName)
 
 
 
-bool Commander::readConfig()
+bool Commander::readConfig(QString configFile)
 {
-    settings = new QSettings("/etc/remote-commander.conf",QSettings::IniFormat,this);
+    qDebug() << "reading config file";
+    settings = new QSettings(configFile, QSettings::IniFormat, this);
     bool retVal = true;
     //first set up remotes
     settings->beginGroup("Devices");

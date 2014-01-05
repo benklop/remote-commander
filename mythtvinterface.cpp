@@ -1,9 +1,12 @@
 #include "mythtvinterface.h"
 #include <QSettings>
+#include <QDebug>
 
 MythTVInterface::MythTVInterface(QString name, QString mythTvHost, QString mythTvMac, QObject *parent) :
     DeviceInterface(name, parent)
 {
+    qDebug() << "creating MythTV interface";
+
     mythSocket = new QTcpSocket(this);
     mythSocket->connectToHost(mythTvHost,6546);
     connect(mythSocket, SIGNAL(readyRead()), this, SLOT(getMessage()));

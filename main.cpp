@@ -21,10 +21,10 @@ int main(int argc, char *argv[])
         qout << endl;
         return 0;
     }
-    else if(app.arguments().at(1) == "--command" || app.arguments().at(1) == "-c")
+    else if(app.arguments().contains("--command"))
     {
         QStringList args = app.arguments();
-        if(args.length() < 3)
+        if(args.length() == args.indexOf("--command") + 1 || args.at(args.indexOf("--command") + 1).startsWith("--") )
         {
             qout << "--command requres an argument" << endl;
             app.processEvents();

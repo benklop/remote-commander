@@ -1,9 +1,12 @@
+#include <QDebug>
 #include "networkinterface.h"
 
 //listening address and port are specified as address:port, or default to 0.0.0.0:51328
 NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
     DeviceInterface(name, parent)
 {
+    qDebug() << "creating Network interface";
+
     server = new QTcpServer(this);
     QStringList addr = address.split(":");
     if(addr.at(0) == "0.0.0.0")

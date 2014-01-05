@@ -5,6 +5,8 @@
 LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
     DeviceInterface(name, parent)
 {
+    qDebug() << "creating LIRC interface";
+
     this->remote = remote;
 
     //init lirc socket connection

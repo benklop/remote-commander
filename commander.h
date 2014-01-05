@@ -12,7 +12,7 @@ class Commander : public QObject
 {
     Q_OBJECT
 public:
-    explicit Commander(QObject *parent = 0);
+    explicit Commander(QString configFile = "/etc/remote-commander.conf", QObject *parent = 0);
     
 signals:
     
@@ -30,7 +30,7 @@ public slots:
     }
 
 private:
-    bool readConfig();
+    bool readConfig(QString configFile);
     bool writeConfig();
     QSettings *settings;
     QList<DeviceInterface*> devices;

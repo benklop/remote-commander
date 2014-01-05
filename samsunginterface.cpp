@@ -4,6 +4,8 @@
 SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *parent) :
     DeviceInterface(name, parent)
 {
+    qDebug() << "creating Samsung interface";
+
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setFlowControl(QSerialPort::NoFlowControl);
