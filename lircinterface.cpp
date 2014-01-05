@@ -46,6 +46,6 @@ void LircInterface::commandReceived()
 
 void LircInterface::messageSend(QString message)
 {
-    QString sendString = "SEND_ONCE " + remote + message + '\n';
+    QString sendString = "SEND_ONCE " + remote + " " + message + '\n';
     socket->write(sendString.toLatin1());
 }
