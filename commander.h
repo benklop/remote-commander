@@ -23,6 +23,7 @@ public slots:
         if(!directive.contains(":"))
         {
             qCritical() << "directive \"" + directive + "\" does not contain \':\' to separate device from command" ;
+            return;
         }
         QStringList cmd = directive.split(":");
         doCommand(cmd.at(0),cmd.at(1));
