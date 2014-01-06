@@ -1,4 +1,7 @@
 #include "networkinterface.h"
+#include <QTcpSocket>
+
+//network interface is special because it allows doing anything, not just wht is in the config file.
 
 //listening address and port are specified as address:port, or default to 0.0.0.0:51328
 NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
@@ -13,4 +16,31 @@ NetworkInterface::NetworkInterface(QString name, QString address, QObject *paren
     else
         server->listen(QHostAddress(addr.at(0)),addr.at(1).toInt());
 
+    connect(server,SIGNAL(newConnection()),this,SLOT(acceptConnection()));
+
+}
+
+void NetworkInterface::messageReceived()
+{
+    QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
+    QByteArray message = socket->readAll();
+    emit messageSend(message);
+    socket->write("OK");
+
+}
+
+void NetworkInterface::acceptConnection()
+{
+    QTcpSocket *socket = server->nextPendingConnection();
+    socketList.append(socket);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(messageReceived()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
+}
+
+void NetworkInterface::destroySocket()
+{
+    QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
+    socketList.removeAll(socket);
+    socket->close();
+    socket->deleteLater();
 }

@@ -12,9 +12,12 @@ public:
 signals:
     
 public slots:
-    
+    void messageReceived();
+    void acceptConnection();
+    void destroySocket();
 public:
     QTcpServer *server;
+    QList<QTcpSocket*> socketList;
 };
 
 #endif // NETWORKINTERFACE_H
