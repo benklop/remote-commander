@@ -25,7 +25,8 @@ void NetworkInterface::messageReceived()
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
     emit messageSend(message);
-    socket->write("OK\n");
+    socket->write("OK\n" +
+                  "RC:\ >");
 
 }
 
@@ -35,6 +36,10 @@ void NetworkInterface::acceptConnection()
     socketList.append(socket);
     connect(socket, SIGNAL(readyRead()), this, SLOT(messageReceived()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
+    socket->write("Remote Commander Network Interface\n" +
+                  "----------------------------------\n" +
+                  "RC:\ >");
+
 }
 
 void NetworkInterface::destroySocket()
