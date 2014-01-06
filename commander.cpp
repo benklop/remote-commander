@@ -21,9 +21,9 @@ void Commander::doCommand(QString deviceName, QString commandName)
     device->messageSend(commandName);
 }
 
-void Commander::parseMessage(QString message)
+void Commander::parseMessage(QString name, QString message)
 {
-    qDebug() << "received message" << message << "from interface" << qobject_cast<DeviceInterface*>(this->sender());
+    qDebug() << "received message" << message << "from interface" << name;
 }
 
 bool Commander::readConfig(QString configFile)
@@ -45,44 +45,29 @@ bool Commander::readConfig(QString configFile)
         //currently there are 'lirc', 'samsung', 'mythtv', and 'network'.
 
         QString currentDevice = settings->value(deviceName).toString();
+        DeviceInterface* interface = 0;
 
+        settings->endGroup();
+        settings->beginGroup(deviceName);
         if(currentDevice == "lirc")
         {
             //init an LIRC device
-            settings->endGroup();
-            settings->beginGroup(deviceName);
-            devices.insert(deviceName, new LircInterface(deviceName, settings->value("remote").toString(), this));
-
-            settings->endGroup();
-            settings->beginGroup("Devices");
-
+            interface = new LircInterface(deviceName, settings->value("remote").toString(), this);
         }
         else if(currentDevice == "samsung")
         {
             //get parameters for and init a samsung TV
-            settings->endGroup();
-            settings->beginGroup(deviceName);
-            devices.insert(deviceName, new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this));
-            settings->endGroup();
-            settings->beginGroup("Devices");
+            interface = new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this);
         }
         else if(currentDevice == "mythtv")
         {
             //get parameters for and init a mythTV frontend
-            settings->endGroup();
-            settings->beginGroup(deviceName);
-            devices.insert(deviceName, new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this));
-            settings->endGroup();
-            settings->beginGroup("Devices");
+            interface = new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this);
         }
         else if(currentDevice == "network")
         {
             //get parameters for and init a network listening socket
-            settings->endGroup();
-            settings->beginGroup(deviceName);
-            devices.insert(deviceName, new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this));
-            settings->endGroup();
-            settings->beginGroup("Devices");
+            interface = new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this);
         }
         else
         {
@@ -90,6 +75,14 @@ bool Commander::readConfig(QString configFile)
             qWarning() << "Remote type \"" << currentDevice << "\" is not a valid remote type";
             retVal = false;
         }
+
+        if(interface != 0)
+        {
+            connect(interface, SIGNAL(messageReceive(QString,QString)), this, SLOT(parseMessage(QString,QString)));
+            devices.insert(deviceName, interface);
+        }
+        settings->endGroup();
+        settings->beginGroup("Devices");
     }
     settings->endGroup();
 
