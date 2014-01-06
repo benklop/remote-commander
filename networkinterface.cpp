@@ -1,4 +1,5 @@
 #include "networkinterface.h"
+#include "commander.h"
 #include <QTcpSocket>
 
 //network interface is special because it allows doing anything, not just wht is in the config file.
@@ -24,6 +25,12 @@ void NetworkInterface::messageReceived()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
+    if(message.startsWith("do-command"))
+    {
+        Commander* commander = qobject_cast<Commander*>(this->parent());
+        commander->doCommand(message.split(' ').at(1));
+    }
+
     emit messageSend(message);
     socket->write("OK\n"
                   "RC:\\ >");
