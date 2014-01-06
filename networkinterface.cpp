@@ -26,7 +26,7 @@ void NetworkInterface::messageReceived()
     QByteArray message = socket->readAll();
     emit messageSend(message);
     socket->write("OK\n"
-                  "RC:\ >");
+                  "RC:\\ >");
 
 }
 
@@ -38,7 +38,7 @@ void NetworkInterface::acceptConnection()
     connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
     socket->write("Remote Commander Network Interface\n"
                   "----------------------------------\n"
-                  "RC:\ >");
+                  "RC:\\ >");
 
 }
 
