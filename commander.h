@@ -29,6 +29,7 @@ public slots:
         doCommand(cmd.at(0),cmd.at(1));
     }
 
+    void parseMessage(QString message);
 private:
     bool readConfig(QString configFile);
     bool writeConfig();

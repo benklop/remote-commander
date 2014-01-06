@@ -21,7 +21,10 @@ void Commander::doCommand(QString deviceName, QString commandName)
     device->messageSend(commandName);
 }
 
-
+void Commander::parseMessage(QString message)
+{
+    qDebug() << "received message" << message << "from interface" << qobject_cast<DeviceInterface*>(this->sender());
+}
 
 bool Commander::readConfig(QString configFile)
 {
