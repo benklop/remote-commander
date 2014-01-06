@@ -27,8 +27,10 @@ void NetworkInterface::messageReceived()
     QByteArray message = socket->readAll();
     if(message.startsWith("do-command"))
     {
+        QByteArray command = message.split(' ').at(1);
+        socket->write("performing command " + command);
         Commander* commander = qobject_cast<Commander*>(this->parent());
-        commander->doCommand(message.split(' ').at(1));
+        commander->doCommand(command);
     }
 
     emit messageSend(message);
