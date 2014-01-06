@@ -7,7 +7,7 @@
 NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
     DeviceInterface(name, parent)
 {
-    qDebug() << "creating Network interface" << name;
+    qDebug() << "creating Network interface List" << name;
 
     server = new QTcpServer(this);
     QStringList addr = address.split(":");
@@ -25,7 +25,7 @@ void NetworkInterface::messageReceived()
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
     emit messageSend(message);
-    socket->write("OK");
+    socket->write("OK\n");
 
 }
 
