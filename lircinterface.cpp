@@ -33,7 +33,9 @@ void LircInterface::commandReceived()
         command.append(socket->readAll());
         buf = QString();
     }
-    qDebug() << "got command" << command << "from LIRC";
+
+    if(command.contains(remote)) //try to constrain debug output to the right interface...
+        qDebug() << "got command" << command << "from LIRC";
 
     if(command.startsWith("BEGIN")&&command.endsWith("END\n"))//grab reply packets for this interface
     {
@@ -86,7 +88,7 @@ void LircInterface::messageSend(QString message)
 {
     if(message == "LIST")
     {
-        socket->write(QString("LIST " + remote + '\n').toLatin1());
+        socket->write(QString("LIST " + remote).toLatin1() + '\n');
     }
     else
     {
