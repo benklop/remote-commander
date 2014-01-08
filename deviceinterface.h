@@ -11,6 +11,8 @@ public:
     explicit DeviceInterface(QString name, QObject *parent = 0);
 signals:
     void messageReceive(QString name, QString message);
+    void success();
+    void error();
 public slots:
     virtual void messageSend(QString message);
 protected:

@@ -21,6 +21,7 @@ public slots:
 private:
     QLocalSocket *socket;
     QString remote;
+    QString buf;
 };
 
 #endif // LIRCINTERFACE_H
