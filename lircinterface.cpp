@@ -21,6 +21,8 @@ void LircInterface::commandReceived()
     //get the command(s) from the socket
     QString command = socket->readAll();
 
+    qDebug() << "got command" << command << "from LIRC";
+
     //split the command(s) in case there are multiple lines
     QStringList commands = command.split('\n');
     foreach(QString command, commands)
