@@ -35,12 +35,6 @@ int main(int argc, char *argv[])
         app.processEvents();
         return 0;
     }
-    else if(app.arguments().length() > 1)
-    {
-        qout << "unknown argument " << app.arguments().at(1) << endl;
-        app.processEvents();
-        return 0;
-    }
 
     return app.exec();
 }
