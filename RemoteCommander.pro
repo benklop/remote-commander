@@ -45,3 +45,6 @@ HEADERS += \
 OTHER_FILES += \
     configfile.conf \
     README.md
+
+target.path = .
+INSTALLS += target
