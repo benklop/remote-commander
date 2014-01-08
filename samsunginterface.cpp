@@ -40,11 +40,7 @@ void SamsungInterface::getMessage()
 {
     QByteArray message = serial->readAll();
     //do something for each char
-    qDebug() << "received response from Samsung" << message;
-    foreach(char ch, message)
-    {
-        //each char
-    }
+    qDebug() << "received response from Samsung" << message.toHex();
 }
 
 void SamsungInterface::loadHash()
