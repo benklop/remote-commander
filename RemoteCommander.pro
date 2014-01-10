@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     mythtvinterface.cpp \
     networkinterface.cpp \
     magicPacket.cpp \
-    macroaction.cpp
+    macroaction.cpp \
+    macrointerface.cpp
 
 HEADERS += \
     lircinterface.h \
@@ -41,7 +42,8 @@ HEADERS += \
     mythtvinterface.h \
     networkinterface.h \
     magicPacket.h \
-    macroaction.h
+    macroaction.h \
+    macrointerface.h
 
 OTHER_FILES += \
     configfile.conf \

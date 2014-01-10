@@ -3,6 +3,7 @@
 #include "mythtvinterface.h"
 #include "samsunginterface.h"
 #include "networkinterface.h"
+#include "macrointerface.h"
 #include <QFile>
 
 /*
@@ -68,6 +69,11 @@ bool Commander::readConfig(QString configFile)
         {
             //get parameters for and init a network listening socket
             interface = new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this);
+        }
+        else if(currentDevice == "macro")
+        {
+            //get parameters for and init a macro forwarder
+            interface = new MacroInterface(deviceName, settings, this);
         }
         else
         {
