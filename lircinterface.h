@@ -9,7 +9,7 @@ class LircInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit LircInterface(QString name, QString remote, QObject *parent = 0);
+    explicit LircInterface(QString name, QSettings *settings, QObject *parent = 0);
     
 signals:
 
@@ -22,6 +22,8 @@ private:
     QLocalSocket *socket;
     QString remote;
     QString buf;
+
+    void getSettings();
 };
 
 #endif // LIRCINTERFACE_H

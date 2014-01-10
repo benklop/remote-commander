@@ -7,7 +7,7 @@ class NetworkInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit NetworkInterface(QString name, QString address = "0.0.0.0:51328", QObject *parent = 0);
+    explicit NetworkInterface(QString name, QSettings *settings, QObject *parent = 0);
     
 signals:
     
@@ -18,6 +18,12 @@ public slots:
 public:
     QTcpServer *server;
     QList<QTcpSocket*> socketList;
+
+private:
+    QString address;
+
+    void messageSend(QString message);
+    void getSettings();
 };
 
 #endif // NETWORKINTERFACE_H

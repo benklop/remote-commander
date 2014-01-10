@@ -2,17 +2,9 @@
 #include <QDebug>
 
 DeviceInterface::DeviceInterface(QString name, QSettings *settings, QObject *parent) :
-    QObject(parent)
+    QObject(parent), name(name), settings(settings)
 {
-    this->name = name;
-    this->settings = settings;
 
-    //load settings as defined in subclass
-    getSettings();
-}
-
-void DeviceInterface::messageSend(QString message)
-{
 }
 
 QString DeviceInterface::getName()

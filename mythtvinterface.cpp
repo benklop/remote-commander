@@ -1,19 +1,19 @@
 #include "mythtvinterface.h"
-#include <QSettings>
 
-MythTVInterface::MythTVInterface(QString name, QString mythTvHost, QString mythTvMac, QSettings *settings, QObject *parent) :
-    DeviceInterface(name, parent)
+MythTVInterface::MythTVInterface(QString name, QSettings *settings, QObject *parent) :
+    DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating MythTV interface" << name;
 
-    this->settings = settings;
+    //load settings
+    getSettings();
 
     mythSocket = new QTcpSocket(this);
-    mythSocket->connectToHost(mythTvHost,6546);
+    mythSocket->connectToHost(host,6546);
     connect(mythSocket, SIGNAL(readyRead()), this, SLOT(getMessage()));
 
-    wol.setIP(mythTvHost);
-    wol.setMAC(mythTvMac.toLatin1());
+    wol.setIP(host);
+    wol.setMAC(mac.toLatin1());
     wol.setPort(7);
 }
 
@@ -23,8 +23,7 @@ void MythTVInterface::messageSend(QString message)
         wol.send();
     else if(message == "power_off")
     {
-        settings.beginGroup(name);
-        mythSocket->write(QString("key " + settings.value("offKey").toString()).toLatin1());
+        mythSocket->write(QString("key " + offKey).toLatin1());
     }
     else
     {
@@ -38,4 +37,13 @@ void MythTVInterface::getMessage()
     QString message = mythSocket->readAll();
     if(message != "OK")
         emit messageReceive(name, message);
+}
+
+void MythTVInterface::getSettings()
+{
+    settings->beginGroup(name);
+    host = settings->value("host", "localhost").toString();
+    mac = settings->value("mac", "00:00:00:00:00:00").toString();
+    offKey = settings->value("offKey").toString();
+    settings->endGroup();
 }

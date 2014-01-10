@@ -7,13 +7,12 @@
 #include <QHash>
 #include "commander.h"
 #include "deviceinterface.h"
-#include <stdint.h>
 
 class SamsungInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit SamsungInterface(QString name, QString serialPort, QObject *parent = 0);
+    explicit SamsungInterface(QString name, QSettings *settings, QObject *parent = 0);
 
 signals:
 
@@ -26,6 +25,7 @@ private:
     QSerialPort *serial;
     Commander *commander;
     QHash<QString,QByteArray> codes;
+    QString serialPort;
 
     static char csum (QByteArray cmd)
     {
@@ -42,6 +42,7 @@ private:
     }
 
     void loadHash();
+    void getSettings();
 
 };
 

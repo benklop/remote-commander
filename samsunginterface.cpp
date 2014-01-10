@@ -1,9 +1,12 @@
 #include "samsunginterface.h"
 
-SamsungInterface::SamsungInterface(QString name, QString serialPort, QObject *parent) :
-    DeviceInterface(name, parent)
+SamsungInterface::SamsungInterface(QString name, QSettings *settings, QObject *parent) :
+    DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating Samsung interface" << name;
+
+    //load settings
+    getSettings();
 
     loadHash();
     serial = new QSerialPort(this);
@@ -58,4 +61,11 @@ void SamsungInterface::loadHash()
     codes.insert("size_fit",		QByteArray::fromHex("0b 0a 01 05"));
     codes.insert("external_speaker",QByteArray::fromHex("0c 07 00 01"));
     codes.insert("internal_speaker",QByteArray::fromHex("0c 07 00 00"));
+}
+
+void SamsungInterface::getSettings()
+{
+    settings->beginGroup(name);
+    serialPort = settings->value("port", "/dev/ttyAMA0").toString();
+    settings->endGroup();
 }

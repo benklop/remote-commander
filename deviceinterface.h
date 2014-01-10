@@ -15,12 +15,12 @@ signals:
     void success();
     void error();
 public slots:
-    virtual void messageSend(QString message);
+    virtual void messageSend(QString message) = 0;
 protected:
     QString name;
     QSettings *settings;
 
-    virtual void getSettings();
+    virtual void getSettings() = 0;
 public:
     QString getName();
 };

@@ -5,10 +5,13 @@
 //network interface is special because it allows doing anything, not just wht is in the config file.
 
 //listening address and port are specified as address:port, or default to 0.0.0.0:51328
-NetworkInterface::NetworkInterface(QString name, QString address, QObject *parent) :
-    DeviceInterface(name, parent)
+NetworkInterface::NetworkInterface(QString name, QSettings *settings, QObject *parent) :
+    DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating Network interface List" << name;
+
+    //load settings
+    getSettings();
 
     server = new QTcpServer(this);
     QStringList addr = address.split(":");
@@ -57,4 +60,16 @@ void NetworkInterface::destroySocket()
     socketList.removeAll(socket);
     socket->close();
     socket->deleteLater();
+}
+
+void NetworkInterface::getSettings()
+{
+    settings->beginGroup(name);
+    address = settings->value("address", "0.0.0.0:51328").toString();
+    settings->endGroup();
+}
+
+void NetworkInterface::messageSend(QString message)
+{
+
 }

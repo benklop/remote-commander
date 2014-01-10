@@ -47,34 +47,18 @@ bool Commander::readConfig(QString configFile)
 
         QString currentDevice = settings->value(deviceName).toString();
         DeviceInterface* interface = 0;
-
         settings->endGroup();
-        settings->beginGroup(deviceName);
+
         if(currentDevice == "lirc")
-        {
-            //init an LIRC device
-            interface = new LircInterface(deviceName, settings->value("remote").toString(), this);
-        }
+            interface = new LircInterface(deviceName, settings, this);
         else if(currentDevice == "samsung")
-        {
-            //get parameters for and init a samsung TV
-            interface = new SamsungInterface(deviceName, settings->value("port", "/dev/ttyAMA0").toString(), this);
-        }
+            interface = new SamsungInterface(deviceName, settings, this);
         else if(currentDevice == "mythtv")
-        {
-            //get parameters for and init a mythTV frontend
-            interface = new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), settings, this);
-        }
+            interface = new MythTVInterface(deviceName, settings, this);
         else if(currentDevice == "network")
-        {
-            //get parameters for and init a network listening socket
-            interface = new NetworkInterface(deviceName, settings->value("address", "0.0.0.0:51328").toString(), this);
-        }
+            interface = new NetworkInterface(deviceName, settings, this);
         else if(currentDevice == "macro")
-        {
-            //get parameters for and init a macro forwarder
             interface = new MacroInterface(deviceName, settings, this);
-        }
         else
         {
             //specified invalid device type
@@ -87,7 +71,7 @@ bool Commander::readConfig(QString configFile)
             connect(interface, SIGNAL(messageReceive(QString,QString)), this, SLOT(parseMessage(QString,QString)));
             devices.insert(deviceName, interface);
         }
-        settings->endGroup();
+
         settings->beginGroup("Devices");
     }
     settings->endGroup();

@@ -10,7 +10,7 @@ class MythTVInterface : public DeviceInterface
 {
     Q_OBJECT
 public:
-    explicit MythTVInterface(QString name, QString mythTvHost = "localhost", QString mythTvMac = "00:00:00:00:00:00", QSettings *settings, QObject *parent = 0);
+    explicit MythTVInterface(QString name, QSettings *settings, QObject *parent = 0);
 
 signals:
 
@@ -22,6 +22,13 @@ private:
     QTcpSocket *mythSocket;
     magicPacket wol;
     QSettings *settings;
+    QString host;
+    QString mac;
+
+    //key values
+    QString offKey;
+
+   void  getSettings();
 
 };
 

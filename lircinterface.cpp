@@ -4,16 +4,17 @@
 //i'm assuming that when i open multiple connections to a socket,
 //i can read the same data from the socket on each connection. this might not be true.
 
-LircInterface::LircInterface(QString name, QString remote, QObject *parent) :
-    DeviceInterface(name, parent)
+LircInterface::LircInterface(QString name, QSettings *settings, QObject *parent) :
+    DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating LIRC interface" << name;
 
-    this->remote = remote;
+    //load settings
+    getSettings();
 
     //init lirc socket connection
     socket = new QLocalSocket(this);
-    socket->connectToServer("/var/run/lirc/lircd");
+    socket->connectToServer("/var/run/lirc/lircd");//i think this is the only location this ever happens at. could be wrong.
     connect(socket,SIGNAL(readyRead()),this,SLOT(commandReceived()));
 
 
@@ -95,4 +96,11 @@ void LircInterface::messageSend(QString message)
         QString sendString = "SEND_ONCE " + remote + " " + message + '\n';
         socket->write(sendString.toLatin1());
     }
+}
+
+void LircInterface::getSettings()
+{
+    settings->beginGroup(name);
+    remote = settings->value("remote").toString();
+    settings->endGroup();
 }
