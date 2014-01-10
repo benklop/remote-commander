@@ -1,10 +1,12 @@
 #include "mythtvinterface.h"
 #include <QSettings>
 
-MythTVInterface::MythTVInterface(QString name, QString mythTvHost, QString mythTvMac, QObject *parent) :
+MythTVInterface::MythTVInterface(QString name, QString mythTvHost, QString mythTvMac, QSettings *settings, QObject *parent) :
     DeviceInterface(name, parent)
 {
     qDebug() << "creating MythTV interface" << name;
+
+    this->settings = settings;
 
     mythSocket = new QTcpSocket(this);
     mythSocket->connectToHost(mythTvHost,6546);
@@ -21,7 +23,6 @@ void MythTVInterface::messageSend(QString message)
         wol.send();
     else if(message == "power_off")
     {
-        QSettings settings("/etc/remote-commander.conf",QSettings::IniFormat,this);
         settings.beginGroup(name);
         mythSocket->write(QString("key " + settings.value("offKey").toString()).toLatin1());
     }

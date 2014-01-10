@@ -62,7 +62,7 @@ bool Commander::readConfig(QString configFile)
         else if(currentDevice == "mythtv")
         {
             //get parameters for and init a mythTV frontend
-            interface = new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), this);
+            interface = new MythTVInterface(deviceName, settings->value("host", "localhost").toString(), settings->value("mac", "00:00:00:00:00:00").toString(), settings, this);
         }
         else if(currentDevice == "network")
         {
