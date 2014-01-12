@@ -2,6 +2,7 @@
 #define MACROINTERFACE_H
 #include <QString>
 #include "deviceinterface.h"
+#include "macroaction.h"
 
 class MacroInterface : public DeviceInterface
 {
@@ -13,9 +14,12 @@ public:
 signals:
 
 public slots:
+    void messageSend(QString message);
 
 private:
-    void messageSend(QString message);
+    QHash<QString, *MacroAction> actions;
+
+
     void getSettings();
 
 };

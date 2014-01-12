@@ -14,11 +14,72 @@ MacroInterface::MacroInterface(QString name, QSettings *settings, QObject *paren
 
 void MacroInterface::messageSend(QString message)
 {
-
+    if(actions.contains(message))
+    {
+        MacroAction action = actions.value(message);
+        foreach(QString command, action.getActions())
+        {
+            QStringList splitCommand = command.split(":");
+            emit messageReceive(splitCommand.at(0),splitCommand.at(1));
+        }
+    }
+    else
+    {
+        qDebug() << "no such macro!";
+    }
 }
 
 void MacroInterface::getSettings()
 {
     settings->beginGroup(name);
+    QStringList allSettings = settings->allKeys();
+
+    foreach(QString key, allSettings)
+    {
+        QString value = settings->value(key).toString();
+        MacroAction *action;
+
+        if(key.contains('/')) // the key contains a modifier
+        {
+            QStringList list = value.split('/');
+            key = list.at(0);
+
+
+            //either find or create an action for this key
+            if(actions.contains(key))
+            {
+                action = actions.value(key);
+            }
+            else
+            {
+                action = new MacroAction(this);
+            }
+
+            //set to toggle
+            if(list.at(1).startsWith('t'))
+            {
+                action->setToggle(true);
+            }
+
+            //add action to macro
+            action->addAction(list.at(1));
+
+        }
+        else // macro is a simple alias
+        {
+            if(actions.contains(key))
+            {
+                action = actions.value(key);
+            }
+            else
+            {
+                action = new MacroAction(this);
+            }
+            action->addAction(value);
+        }
+
+        actions.insert()
+    }
+
     settings->endGroup();
 }

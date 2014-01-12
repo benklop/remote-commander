@@ -12,12 +12,23 @@ public:
 signals:
     
 public slots:
+    void addAction(QString action);
+    void setToggle(bool toggle)
+    {
+        this->toggle = toggle;
+    }
+    bool getToggle()
+    {
+        return this->toggle;
+    }
+    QStringList getActions()
+    {
+        return actions;
+    }
 
 private:
     bool toggle = false;
-    QList<MacroAction*> actions;
-    QString action;
-    QString name;
+    QStringList actions;
     QString device;
     
 };
