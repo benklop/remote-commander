@@ -18,10 +18,17 @@ void MacroInterface::messageSend(QString message)
     if(actions.contains(message))
     {
         MacroAction *action = actions.value(message);
-        foreach(QString command, action->getActions())
+        if(action->getToggle())
         {
-            QStringList splitCommand = command.split(":");
-            emit messageReceive(splitCommand.at(0),splitCommand.at(1));
+
+        }
+        else
+        {
+            foreach(QString command, action->getActions())
+            {
+                QStringList splitCommand = command.split(":");
+                emit messageReceive(splitCommand.at(0),splitCommand.at(1));
+            }
         }
     }
     else

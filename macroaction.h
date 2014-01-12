@@ -28,7 +28,7 @@ public slots:
     }
     QString getNext()
     {
-        if(current < action.length)
+        if(current < actions.length())
         {
 
             return actions.at(current++);
