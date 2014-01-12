@@ -20,7 +20,9 @@ void MacroInterface::messageSend(QString message)
         MacroAction *action = actions.value(message);
         if(action->getToggle())
         {
-
+            QString command = action->getNext();
+            QStringList splitCommand = command.split(":");
+            emit messageReceive(splitCommand.at(0),splitCommand.at(1));
         }
         else
         {
