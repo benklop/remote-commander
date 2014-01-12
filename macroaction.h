@@ -26,9 +26,23 @@ public slots:
     {
         return actions;
     }
+    QString getNext()
+    {
+        if(current < action.length)
+        {
+
+            return actions.at(current++);
+        }
+        else
+        {
+            current = 0;
+            return actions.at(current);
+        }
+    }
 
 private:
-    bool toggle = false;
+    bool toggle = false;\
+    int current = 0;
     QStringList actions;
     QString device;
     
