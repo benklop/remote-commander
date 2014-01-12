@@ -51,7 +51,7 @@ void MacroInterface::getSettings()
 
         if(key.contains('/')) // the key contains a modifier
         {
-            QStringList list = value.split('/');
+            QStringList list = key.split('/');
             key = list.at(0);
 
 
