@@ -2,6 +2,7 @@
 #define MACROACTION_H
 
 #include <QObject>
+#include <QStringList>
 
 class MacroAction : public QObject
 {

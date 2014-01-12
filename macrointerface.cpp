@@ -1,4 +1,5 @@
 #include "macrointerface.h"
+#include <QDebug>
 
 /*
  * MacroInterface provides a way to create a
@@ -16,8 +17,8 @@ void MacroInterface::messageSend(QString message)
 {
     if(actions.contains(message))
     {
-        MacroAction action = actions.value(message);
-        foreach(QString command, action.getActions())
+        MacroAction *action = actions.value(message);
+        foreach(QString command, action->getActions())
         {
             QStringList splitCommand = command.split(":");
             emit messageReceive(splitCommand.at(0),splitCommand.at(1));
@@ -53,6 +54,7 @@ void MacroInterface::getSettings()
             else
             {
                 action = new MacroAction(this);
+                actions.insert(key, action);
             }
 
             //set to toggle
@@ -78,7 +80,6 @@ void MacroInterface::getSettings()
             action->addAction(value);
         }
 
-        actions.insert()
     }
 
     settings->endGroup();

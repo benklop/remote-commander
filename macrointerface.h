@@ -1,6 +1,7 @@
 #ifndef MACROINTERFACE_H
 #define MACROINTERFACE_H
 #include <QString>
+#include <QHash>
 #include "deviceinterface.h"
 #include "macroaction.h"
 
@@ -17,7 +18,7 @@ public slots:
     void messageSend(QString message);
 
 private:
-    QHash<QString, *MacroAction> actions;
+    QHash<QString, MacroAction*> actions;
 
 
     void getSettings();
