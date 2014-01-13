@@ -71,5 +71,8 @@ void NetworkInterface::getSettings()
 
 void NetworkInterface::messageSend(QString message)
 {
-
+    foreach(QTcpSocket *socket, socketList)
+    {
+        socket->write(message.toLatin1());
+    }
 }
