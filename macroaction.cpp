@@ -4,7 +4,7 @@
 MacroAction::MacroAction(QObject *parent) :
     QObject(parent)
 {
-    qDebug() << "creating Macro";
+
 }
 
 void MacroAction::addAction(QString action)

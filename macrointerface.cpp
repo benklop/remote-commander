@@ -9,6 +9,7 @@
 MacroInterface::MacroInterface(QString name, QSettings *settings, QObject *parent) :
     DeviceInterface(name, settings, parent)
 {
+    qDebug() << "creating Macro interface" << name;
     //load settings
     getSettings();
 }
