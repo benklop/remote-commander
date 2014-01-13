@@ -21,7 +21,6 @@ public slots:
 private:
     QTcpSocket *mythSocket;
     magicPacket wol;
-    QSettings *settings;
     QString host;
     QString mac;
 
