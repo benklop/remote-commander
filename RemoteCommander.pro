@@ -47,7 +47,8 @@ HEADERS += \
 
 OTHER_FILES += \
     configfile.conf \
-    README.md
+    README.md \
+    macrotest.conf
 
 target.path = .
 INSTALLS += target
