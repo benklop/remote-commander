@@ -37,7 +37,7 @@ void NetworkInterface::messageReceived()
     }
     else
     {
-        emit messageSend(message);
+        emit messageReceive(name,message);
     }
     socket->write("OK\n"
                   "RC:\\ >");
