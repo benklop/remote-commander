@@ -74,7 +74,7 @@ void MacroInterface::getSettings()
             }
 
             //add action to macro
-            action->addAction(list.at(1));
+            action->addAction(value);
 
         }
         else // macro is a simple alias

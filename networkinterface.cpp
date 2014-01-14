@@ -35,8 +35,10 @@ void NetworkInterface::messageReceived()
         Commander* commander = qobject_cast<Commander*>(this->parent());
         commander->doCommand(command.trimmed());
     }
-
-    emit messageSend(message);
+    else
+    {
+        emit messageSend(message);
+    }
     socket->write("OK\n"
                   "RC:\\ >");
 
