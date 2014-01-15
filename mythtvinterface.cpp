@@ -38,5 +38,5 @@ void MythTVInterface::getMessage()
 {
     QString message = mythSocket->readAll();
     if(message != "OK")
-        emit SendMessage(name, message);
+        processMessage(message);
 }

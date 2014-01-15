@@ -17,7 +17,7 @@ signals:
     void error();
 public slots:
     virtual void receiveMessage(QString message) = 0;
-    void getMessage(QString);
+    void processMessage(QString message);
 protected:
     QString name;
     QSettings *settings;

@@ -24,11 +24,11 @@ NetworkInterface::NetworkInterface(QString name, QSettings *settings, QObject *p
 
 }
 
-void NetworkInterface::SendMessaged()
+void NetworkInterface::dataReceived()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
-    if(message.startsWith("do-command") || message.startsWith("dc"))
+    if((message.startsWith("do-command") || message.startsWith("dc")) && message.split(' ').length() > 1)
     {
         QByteArray command = message.split(' ').at(1);
         socket->write("performing command " + command);
@@ -37,7 +37,7 @@ void NetworkInterface::SendMessaged()
     }
     else
     {
-        emit SendMessage(name,message);
+        processMessage(message);
     }
     socket->write("OK\n"
                   "RC:\\ >");
@@ -48,7 +48,7 @@ void NetworkInterface::acceptConnection()
 {
     QTcpSocket *socket = server->nextPendingConnection();
     socketList.append(socket);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(SendMessaged()));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
     socket->write("Remote Commander Network Interface\n"
                   "----------------------------------\n"

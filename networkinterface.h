@@ -12,7 +12,7 @@ public:
 signals:
     
 public slots:
-    void SendMessaged();
+    void dataReceived();
     void acceptConnection();
     void destroySocket();
     void receiveMessage(QString message);

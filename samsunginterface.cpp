@@ -15,7 +15,7 @@ SamsungInterface::SamsungInterface(QString name, QSettings *settings, QObject *p
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setFlowControl(QSerialPort::NoFlowControl);
 
-    connect(serial, SIGNAL(readyRead()), this, SLOT(getMessage()));
+    connect(serial, SIGNAL(readyRead()), this, SLOT(receiveData()));
 }
 
 void SamsungInterface::receiveMessage(QString message)
@@ -39,10 +39,9 @@ void SamsungInterface::receiveMessage(QString message)
 }
 
 //load the data out of the port
-void SamsungInterface::getMessage()
+void SamsungInterface::receiveData()
 {
     QByteArray message = serial->readAll();
-    //do something for each char
     qDebug() << "received response from Samsung" << message.toHex();
 }
 

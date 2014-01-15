@@ -17,26 +17,5 @@ MacroInterface::MacroInterface(QString name, QSettings *settings, QObject *paren
 
 void MacroInterface::receiveMessage(QString message)
 {
-    if(actions.contains(message))
-    {
-        MacroAction *action = actions.value(message);
-        if(action->getToggle())
-        {
-            QString command = action->getNext();
-            QStringList splitCommand = command.split(":");
-            emit SendMessage(splitCommand.at(0),splitCommand.at(1));
-        }
-        else
-        {
-            foreach(QString command, action->getActions())
-            {
-                QStringList splitCommand = command.split(":");
-                emit SendMessage(splitCommand.at(0),splitCommand.at(1));
-            }
-        }
-    }
-    else
-    {
-        qDebug() << "no such macro!";
-    }
+    processMessage(message);
 }

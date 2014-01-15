@@ -19,7 +19,7 @@ signals:
 
 public slots:
     void receiveMessage(QString message);
-    void getMessage();
+    void receiveData();
 
 private:
     QSerialPort *serial;

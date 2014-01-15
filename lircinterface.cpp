@@ -75,7 +75,7 @@ void LircInterface::commandReceived()
             //for the moment let's only worry about the first press, not a button that's been held down
             if(repeatCount == 0)
             {
-                emit SendMessage(name, buttonName);
+                processMessage(buttonName);
             }
         }
     }
