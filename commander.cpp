@@ -24,7 +24,8 @@ void Commander::doCommand(QString deviceName, QString commandName)
 
 void Commander::parseMessage(QString name, QString message)
 {
-    qDebug() << "received message" << message << "from interface" << name;
+    qDebug() << "received message" << message << "for interface" << name;
+    devices.value(name)->receiveMessage(message);
 }
 
 bool Commander::readConfig(QString configFile)
@@ -62,7 +63,7 @@ bool Commander::readConfig(QString configFile)
         else
         {
             //specified invalid device type
-            qWarning() << "Remote type \"" << currentDevice << "\" is not a valid remote type";
+            qWarning() << "Device type \"" << currentDevice << "\" is not a valid device type";
             retVal = false;
         }
 
