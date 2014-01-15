@@ -16,14 +16,11 @@ signals:
 
 public slots:
     void commandReceived();
-    void messageSend(QString message);
+    void receiveMessage(QString message);
 
 private:
     QLocalSocket *socket;
-    QString remote;
     QString buf;
-
-    void getSettings();
 };
 
 #endif // LIRCINTERFACE_H

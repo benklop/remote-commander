@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QSettings>
+#include "macroaction.h"
 
 class DeviceInterface : public QObject
 {
@@ -11,16 +12,20 @@ class DeviceInterface : public QObject
 public:
     explicit DeviceInterface(QString name, QSettings *settings, QObject *parent = 0);
 signals:
-    void messageReceive(QString name, QString message);
+    void SendMessage(QString name, QString message);
     void success();
     void error();
 public slots:
-    virtual void messageSend(QString message) = 0;
+    virtual void receiveMessage(QString message) = 0;
+    void getMessage(QString);
 protected:
     QString name;
     QSettings *settings;
+    QHash<QString, QString> loadedSettings;
+    QHash<QString, MacroAction*> actions;
 
-    virtual void getSettings() = 0;
+    void loadSettings(QStringList settingsNames = QStringList()); // names of settings which are not used as actions
+    void loadSettings(QString settingsNames);
 public:
     QString getName();
 };

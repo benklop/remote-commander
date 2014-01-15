@@ -7,6 +7,79 @@ DeviceInterface::DeviceInterface(QString name, QSettings *settings, QObject *par
 
 }
 
+void DeviceInterface::getMessage(QString)
+{
+
+}
+
+void DeviceInterface::loadSettings(QString settingsNames)
+{
+    loadSettings(QStringList(settingsNames));
+}
+
+void DeviceInterface::loadSettings(QStringList settingsNames)
+{
+    //load settings
+    settings->beginGroup(name);
+    QStringList allSettings = settings->allKeys();
+
+    foreach(QString key, allSettings)
+    {
+        if(settingsNames.contains(key)) //this is a setting, not a command
+        {
+            loadedSettings.insert(key, settings->value(key).toString());
+        }
+        else //this is a command
+        {
+            QString value = settings->value(key).toString();
+            MacroAction *action;
+
+            if(key.contains('/')) // the key contains a modifier
+            {
+                QStringList list = key.split('/');
+                key = list.at(0);
+
+
+                //either find or create an action for this key
+                if(actions.contains(key))
+                {
+                    action = actions.value(key);
+                }
+                else
+                {
+                    action = new MacroAction(this);
+                    actions.insert(key, action);
+                }
+
+                //set to toggle
+                if(list.at(1).startsWith('t'))
+                {
+                    action->setToggle(true);
+                }
+
+                //add action to macro
+                action->addAction(value);
+
+            }
+            else // macro is a simple alias
+            {
+                if(actions.contains(key))
+                {
+                    action = actions.value(key);
+                }
+                else
+                {
+                    action = new MacroAction(this);
+                }
+                action->addAction(value);
+            }
+        }
+    }
+
+    settings->endGroup();
+
+}
+
 QString DeviceInterface::getName()
 {
     return name;

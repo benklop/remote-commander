@@ -4,17 +4,17 @@
 
 //network interface is special because it allows doing anything, not just wht is in the config file.
 
-//listening address and port are specified as address:port, or default to 0.0.0.0:51328
+//listening address and port are specified as address:port
 NetworkInterface::NetworkInterface(QString name, QSettings *settings, QObject *parent) :
     DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating Network interface List" << name;
 
     //load settings
-    getSettings();
+    loadSettings("address");
 
     server = new QTcpServer(this);
-    QStringList addr = address.split(":");
+    QStringList addr = loadedSettings.value("address").split(":");
     if(addr.at(0) == "0.0.0.0")
         server->listen(QHostAddress::Any,addr.at(1).toInt());
     else
@@ -24,7 +24,7 @@ NetworkInterface::NetworkInterface(QString name, QSettings *settings, QObject *p
 
 }
 
-void NetworkInterface::messageReceived()
+void NetworkInterface::SendMessaged()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
@@ -37,7 +37,7 @@ void NetworkInterface::messageReceived()
     }
     else
     {
-        emit messageReceive(name,message);
+        emit SendMessage(name,message);
     }
     socket->write("OK\n"
                   "RC:\\ >");
@@ -48,7 +48,7 @@ void NetworkInterface::acceptConnection()
 {
     QTcpSocket *socket = server->nextPendingConnection();
     socketList.append(socket);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(messageReceived()));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(SendMessaged()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
     socket->write("Remote Commander Network Interface\n"
                   "----------------------------------\n"
@@ -64,14 +64,7 @@ void NetworkInterface::destroySocket()
     socket->deleteLater();
 }
 
-void NetworkInterface::getSettings()
-{
-    settings->beginGroup(name);
-    address = settings->value("address", "0.0.0.0:51328").toString();
-    settings->endGroup();
-}
-
-void NetworkInterface::messageSend(QString message)
+void NetworkInterface::receiveMessage(QString message)
 {
     foreach(QTcpSocket *socket, socketList)
     {

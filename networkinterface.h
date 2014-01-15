@@ -12,18 +12,17 @@ public:
 signals:
     
 public slots:
-    void messageReceived();
+    void SendMessaged();
     void acceptConnection();
     void destroySocket();
+    void receiveMessage(QString message);
+
 public:
     QTcpServer *server;
     QList<QTcpSocket*> socketList;
 
 private:
-    QString address;
 
-    void messageSend(QString message);
-    void getSettings();
 };
 
 #endif // NETWORKINTERFACE_H

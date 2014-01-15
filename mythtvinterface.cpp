@@ -6,24 +6,26 @@ MythTVInterface::MythTVInterface(QString name, QSettings *settings, QObject *par
     qDebug() << "creating MythTV interface" << name;
 
     //load settings
-    getSettings();
+    QStringList settingNames;
+    settingNames << "host" << "mac" << "offKey";
+    loadSettings(settingNames);
 
     mythSocket = new QTcpSocket(this);
-    mythSocket->connectToHost(host,6546);
+    mythSocket->connectToHost(loadedSettings.value("host"),6546);
     connect(mythSocket, SIGNAL(readyRead()), this, SLOT(getMessage()));
 
-    wol.setIP(host);
-    wol.setMAC(mac.toLatin1());
+    wol.setIP(loadedSettings.value("host"));
+    wol.setMAC(loadedSettings.value("mac").toLatin1());
     wol.setPort(7);
 }
 
-void MythTVInterface::messageSend(QString message)
+void MythTVInterface::receiveMessage(QString message)
 {
     if(message == "power_on") //power on handed by wake on lan
         wol.send();
     else if(message == "power_off")
     {
-        mythSocket->write(QString("key " + offKey).toLatin1());
+        mythSocket->write(QString("key " + loadedSettings.value("offKey")).toLatin1());
     }
     else
     {
@@ -36,14 +38,5 @@ void MythTVInterface::getMessage()
 {
     QString message = mythSocket->readAll();
     if(message != "OK")
-        emit messageReceive(name, message);
-}
-
-void MythTVInterface::getSettings()
-{
-    settings->beginGroup(name);
-    host = settings->value("host", "localhost").toString();
-    mac = settings->value("mac", "00:00:00:00:00:00").toString();
-    offKey = settings->value("offKey").toString();
-    settings->endGroup();
+        emit SendMessage(name, message);
 }

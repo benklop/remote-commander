@@ -18,7 +18,7 @@ signals:
 
 
 public slots:
-    void messageSend(QString message);
+    void receiveMessage(QString message);
     void getMessage();
 
 private:

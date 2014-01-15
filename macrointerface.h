@@ -15,7 +15,7 @@ public:
 signals:
 
 public slots:
-    void messageSend(QString message);
+    void receiveMessage(QString message);
 
 private:
     QHash<QString, MacroAction*> actions;

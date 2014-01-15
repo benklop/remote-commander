@@ -6,11 +6,11 @@ SamsungInterface::SamsungInterface(QString name, QSettings *settings, QObject *p
     qDebug() << "creating Samsung interface" << name;
 
     //load settings
-    getSettings();
+    loadSettings("port");
 
     loadHash();
     serial = new QSerialPort(this);
-    serial->setPortName(serialPort);
+    serial->setPortName(loadedSettings.value("port"));
     serial->open(serial->ReadWrite);
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setFlowControl(QSerialPort::NoFlowControl);
@@ -18,7 +18,7 @@ SamsungInterface::SamsungInterface(QString name, QSettings *settings, QObject *p
     connect(serial, SIGNAL(readyRead()), this, SLOT(getMessage()));
 }
 
-void SamsungInterface::messageSend(QString message)
+void SamsungInterface::receiveMessage(QString message)
 {
     if(!codes.contains(message))
     {
@@ -61,11 +61,4 @@ void SamsungInterface::loadHash()
     codes.insert("size_fit",		QByteArray::fromHex("0b 0a 01 05"));
     codes.insert("external_speaker",QByteArray::fromHex("0c 07 00 01"));
     codes.insert("internal_speaker",QByteArray::fromHex("0c 07 00 00"));
-}
-
-void SamsungInterface::getSettings()
-{
-    settings->beginGroup(name);
-    serialPort = settings->value("port", "/dev/ttyAMA0").toString();
-    settings->endGroup();
 }

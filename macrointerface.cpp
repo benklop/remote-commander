@@ -10,11 +10,12 @@ MacroInterface::MacroInterface(QString name, QSettings *settings, QObject *paren
     DeviceInterface(name, settings, parent)
 {
     qDebug() << "creating Macro interface" << name;
+
     //load settings
-    getSettings();
+    loadSettings();
 }
 
-void MacroInterface::messageSend(QString message)
+void MacroInterface::receiveMessage(QString message)
 {
     if(actions.contains(message))
     {
@@ -23,14 +24,14 @@ void MacroInterface::messageSend(QString message)
         {
             QString command = action->getNext();
             QStringList splitCommand = command.split(":");
-            emit messageReceive(splitCommand.at(0),splitCommand.at(1));
+            emit SendMessage(splitCommand.at(0),splitCommand.at(1));
         }
         else
         {
             foreach(QString command, action->getActions())
             {
                 QStringList splitCommand = command.split(":");
-                emit messageReceive(splitCommand.at(0),splitCommand.at(1));
+                emit SendMessage(splitCommand.at(0),splitCommand.at(1));
             }
         }
     }
@@ -38,59 +39,4 @@ void MacroInterface::messageSend(QString message)
     {
         qDebug() << "no such macro!";
     }
-}
-
-void MacroInterface::getSettings()
-{
-    settings->beginGroup(name);
-    QStringList allSettings = settings->allKeys();
-
-    foreach(QString key, allSettings)
-    {
-        QString value = settings->value(key).toString();
-        MacroAction *action;
-
-        if(key.contains('/')) // the key contains a modifier
-        {
-            QStringList list = key.split('/');
-            key = list.at(0);
-
-
-            //either find or create an action for this key
-            if(actions.contains(key))
-            {
-                action = actions.value(key);
-            }
-            else
-            {
-                action = new MacroAction(this);
-                actions.insert(key, action);
-            }
-
-            //set to toggle
-            if(list.at(1).startsWith('t'))
-            {
-                action->setToggle(true);
-            }
-
-            //add action to macro
-            action->addAction(value);
-
-        }
-        else // macro is a simple alias
-        {
-            if(actions.contains(key))
-            {
-                action = actions.value(key);
-            }
-            else
-            {
-                action = new MacroAction(this);
-            }
-            action->addAction(value);
-        }
-
-    }
-
-    settings->endGroup();
 }

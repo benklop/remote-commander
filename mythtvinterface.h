@@ -15,20 +15,12 @@ public:
 signals:
 
 public slots:
-    void messageSend(QString message);
+    void receiveMessage(QString message);
     void getMessage();
 
 private:
     QTcpSocket *mythSocket;
     magicPacket wol;
-    QString host;
-    QString mac;
-
-    //key values
-    QString offKey;
-
-   void  getSettings();
-
 };
 
 #endif // MYTHTVINTERFACE_H

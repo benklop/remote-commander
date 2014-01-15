@@ -19,7 +19,7 @@ Commander::Commander(QString configFile, QObject *parent) :
 void Commander::doCommand(QString deviceName, QString commandName)
 {
     DeviceInterface *device = devices.value(deviceName);
-    device->messageSend(commandName);
+    device->receiveMessage(commandName);
 }
 
 void Commander::parseMessage(QString name, QString message)
@@ -68,7 +68,7 @@ bool Commander::readConfig(QString configFile)
 
         if(interface != 0)
         {
-            connect(interface, SIGNAL(messageReceive(QString,QString)), this, SLOT(parseMessage(QString,QString)));
+            connect(interface, SIGNAL(SendMessage(QString,QString)), this, SLOT(parseMessage(QString,QString)));
             devices.insert(deviceName, interface);
         }
 
