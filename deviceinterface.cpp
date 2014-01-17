@@ -92,6 +92,7 @@ void DeviceInterface::loadSettings(QStringList settingsNames)
                 else
                 {
                     action = new MacroAction(this);
+                    actions.insert(key, action);
                 }
                 action->addAction(value);
             }
