@@ -30,17 +30,16 @@ void NetworkInterface::dataReceived()
     QByteArray message = socket->readAll();
     if((message.startsWith("do-command") || message.startsWith("dc")) && message.split(' ').length() > 1)
     {
-        QByteArray command = message.split(' ').at(1);
+        QByteArray command = message.split(' ').at(1).trimmed();
         socket->write("performing command " + command);
         Commander* commander = qobject_cast<Commander*>(this->parent());
-        commander->doCommand(command.trimmed());
+        commander->doCommand(command);
     }
     else
     {
         processMessage(message);
     }
-    socket->write("OK\n"
-                  "RC:\\ >");
+    prompt(socket);
 
 }
 
@@ -51,9 +50,8 @@ void NetworkInterface::acceptConnection()
     connect(socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(destroySocket()));
     socket->write("Remote Commander Network Interface\n"
-                  "----------------------------------\n"
-                  "RC:\\ >");
-
+                  "----------------------------------\n");
+    prompt(socket);
 }
 
 void NetworkInterface::destroySocket()
@@ -68,6 +66,14 @@ void NetworkInterface::receiveMessage(QString message)
 {
     foreach(QTcpSocket *socket, socketList)
     {
-        socket->write(message.toLatin1());
+
+        socket->write("\n" + message.toLatin1());
+        prompt(socket);
+
     }
+}
+
+void NetworkInterface::prompt(QTcpSocket *socket)
+{
+    socket->write("\n" + name.toLatin1() + ":" + QByteArray::number(socketList.indexOf(socket) + 1) + "#");
 }

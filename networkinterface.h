@@ -22,7 +22,7 @@ public:
     QList<QTcpSocket*> socketList;
 
 private:
-
+    void prompt(QTcpSocket* socket);
 };
 
 #endif // NETWORKINTERFACE_H

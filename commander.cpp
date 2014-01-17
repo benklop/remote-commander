@@ -16,10 +16,17 @@ Commander::Commander(QString configFile, QObject *parent) :
     readConfig(configFile);
 }
 
-void Commander::doCommand(QString deviceName, QString commandName)
+void Commander::doCommand(QString command)
 {
-    DeviceInterface *device = devices.value(deviceName);
-    device->receiveMessage(commandName);
+    if(!command.contains(":"))
+    {
+            qCritical() << "directive \"" + command + "\" does not contain \':\' to separate device from command" ;
+    }
+    else
+    {
+        QStringList cmd = command.split(":");
+        parseMessage(cmd.at(0),cmd.at(1));
+    }
 }
 
 void Commander::parseMessage(QString name, QString message)

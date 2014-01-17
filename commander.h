@@ -17,18 +17,7 @@ public:
 signals:
     
 public slots:
-    void doCommand(QString deviceName, QString commandName);
-    void doCommand(QString directive)
-    {
-        if(!directive.contains(":"))
-        {
-            qCritical() << "directive \"" + directive + "\" does not contain \':\' to separate device from command" ;
-            return;
-        }
-        QStringList cmd = directive.split(":");
-        doCommand(cmd.at(0),cmd.at(1));
-    }
-
+    void doCommand(QString command);
     void parseMessage(QString name, QString message);
 private:
     bool readConfig(QString configFile);
