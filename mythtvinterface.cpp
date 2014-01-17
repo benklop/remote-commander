@@ -37,6 +37,6 @@ void MythTVInterface::receiveMessage(QString message)
 void MythTVInterface::getMessage()
 {
     QString message = mythSocket->readAll();
-    if(message != "OK")
+    if(message != "OK" && !message.contains("MythFrontend Network Control"))
         processMessage(message);
 }
