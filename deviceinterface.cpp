@@ -9,6 +9,7 @@ DeviceInterface::DeviceInterface(QString name, QSettings *settings, QObject *par
 
 void DeviceInterface::processMessage(QString message)
 {
+    message = message.trimmed();
     if(actions.contains(message))
     {
         MacroAction *action = actions.value(message);
@@ -29,7 +30,7 @@ void DeviceInterface::processMessage(QString message)
     }
     else
     {
-        qDebug() << "no such action" << message << "confgured!";
+        qDebug() << "no such action" << message << "configured!";
     }
 }
 
