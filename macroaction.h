@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QPair>
 
 class MacroAction : public QObject
 {
@@ -13,7 +14,7 @@ public:
 signals:
     
 public slots:
-    void addAction(QString action);
+    void addAction(QString action, QString mode = QString());
     void setToggle(bool toggle)
     {
         this->toggle = toggle;
@@ -22,28 +23,13 @@ public slots:
     {
         return this->toggle;
     }
-    QStringList getActions()
-    {
-        return actions;
-    }
-    QString getNext()
-    {
-        if(current < actions.length())
-        {
-
-            return actions.at(current++);
-        }
-        else
-        {
-            current = 0;
-            return actions.at(current);
-        }
-    }
+    QStringList getActions(QString mode = QString());
+    QString getNext(QString mode = QString());
 
 private:
-    bool toggle = false;\
+    bool toggle = false;
     int current = 0;
-    QStringList actions;
+    QList<QPair<QString, QString>> actions;
     QString device;
     
 };

@@ -10,18 +10,26 @@ DeviceInterface::DeviceInterface(QString name, QSettings *settings, QObject *par
 void DeviceInterface::processMessage(QString message)
 {
     message = message.trimmed();
-    if(actions.contains(message))
+    if(message.startsWith("setMode/"))
+    {
+        mode = message.remove(0,8);
+    }
+    else if(message.startsWith("wait/"))
+    {
+        //need to figure out how to do a delay without blocking the rest of the app
+    }
+    else if(actions.contains(message))
     {
         MacroAction *action = actions.value(message);
         if(action->getToggle())
         {
-            QString command = action->getNext();
+            QString command = action->getNext(mode);
             QStringList splitCommand = command.split(":");
             emit SendMessage(splitCommand.at(0),splitCommand.at(1));
         }
         else
         {
-            foreach(QString command, action->getActions())
+            foreach(QString command, action->getActions(mode))
             {
                 QStringList splitCommand = command.split(":");
                 emit SendMessage(splitCommand.at(0),splitCommand.at(1));
@@ -60,6 +68,7 @@ void DeviceInterface::loadSettings(QStringList settingsNames)
             {
                 QStringList list = key.split('/');
                 key = list.at(0);
+                QString modeName;
 
 
                 //either find or create an action for this key
@@ -73,14 +82,37 @@ void DeviceInterface::loadSettings(QStringList settingsNames)
                     actions.insert(key, action);
                 }
 
+
+
                 //set to toggle
                 if(list.at(1).startsWith('t'))
                 {
                     action->setToggle(true);
                 }
+                //add mode name
+                else if(list.at(1).startsWith('m'))
+                {
+                    modeName = list.at(1);
+                    modeName.remove(0,1);
+
+                }
+
+                if(list.length() == 3)
+                {
+                    if(list.at(2).startsWith('t'))
+                    {
+                        action->setToggle(true);
+                    }
+                    else if(list.at(2).startsWith('m'))
+                    {
+                        modeName = list.at(2);
+                        modeName.remove(0,1);
+
+                    }
+                }
 
                 //add action to macro
-                action->addAction(value);
+                action->addAction(value,modeName);
 
             }
             else // macro is a simple alias

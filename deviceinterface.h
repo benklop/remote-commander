@@ -20,14 +20,17 @@ public slots:
     void processMessage(QString message);
 protected:
     QString name;
+    QString mode;
     QSettings *settings;
     QHash<QString, QString> loadedSettings;
     QHash<QString, MacroAction*> actions;
 
     void loadSettings(QStringList settingsNames = QStringList()); // names of settings which are not used as actions
     void loadSettings(QString settingsNames);
+
 public:
     QString getName();
+
 };
 
 #endif // DEVICEINTERFACE_H
