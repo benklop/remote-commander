@@ -16,7 +16,7 @@ signals:
     void success();
     void error();
 public slots:
-    virtual void receiveMessage(QString message) = 0;
+    void processReceive(QString message);
     void processMessage(QString message);
 protected:
     QString name;
@@ -30,6 +30,9 @@ protected:
 
 public:
     QString getName();
+
+protected slots:
+    virtual void receiveMessage(QString message) = 0;
 
 };
 

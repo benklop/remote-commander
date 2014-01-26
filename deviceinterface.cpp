@@ -7,32 +7,47 @@ DeviceInterface::DeviceInterface(QString name, QSettings *settings, QObject *par
 
 }
 
-void DeviceInterface::processMessage(QString message)
+void DeviceInterface::processReceive(QString message)
 {
-    message = message.trimmed();
     if(message.startsWith("setMode/"))
     {
         mode = message.remove(0,8);
+        qDebug() << "mode for" << name << "set to" << mode;
     }
     else if(message.startsWith("wait/"))
     {
         //need to figure out how to do a delay without blocking the rest of the app
     }
-    else if(actions.contains(message))
+    else
+    {
+        receiveMessage(message);
+    }
+}
+
+void DeviceInterface::processMessage(QString message)
+{
+    message = message.trimmed();
+    if(actions.contains(message))
     {
         MacroAction *action = actions.value(message);
         if(action->getToggle())
         {
             QString command = action->getNext(mode);
             QStringList splitCommand = command.split(":");
-            emit SendMessage(splitCommand.at(0),splitCommand.at(1));
+            if(splitCommand.at(0) == name)
+                processReceive(splitCommand.at(1));
+            else
+                emit SendMessage(splitCommand.at(0),splitCommand.at(1));
         }
         else
         {
             foreach(QString command, action->getActions(mode))
             {
                 QStringList splitCommand = command.split(":");
-                emit SendMessage(splitCommand.at(0),splitCommand.at(1));
+                if(splitCommand.at(0) == name)
+                    processReceive(splitCommand.at(1));
+                else
+                    emit SendMessage(splitCommand.at(0),splitCommand.at(1));
             }
         }
     }

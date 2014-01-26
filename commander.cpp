@@ -32,7 +32,7 @@ void Commander::doCommand(QString command)
 void Commander::parseMessage(QString name, QString message)
 {
     qDebug() << "received message" << message << "for interface" << name;
-    devices.value(name)->receiveMessage(message);
+    devices.value(name)->processReceive(message);
 }
 
 bool Commander::readConfig(QString configFile)
