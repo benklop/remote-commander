@@ -28,7 +28,7 @@ void NetworkInterface::dataReceived()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(this->sender());
     QByteArray message = socket->readAll();
-    if((message.startsWith("do-command") || message.startsWith("dc")) && message.split(' ').length() > 1)
+    if((message.startsWith("doCommand") || message.startsWith("dc")) && message.split(' ').length() > 1)
     {
         QByteArray command = message.split(' ').at(1).trimmed();
         socket->write("performing command " + command);
