@@ -11,5 +11,7 @@ the command line --command options.
 
 Devices will need to be configured in the config file.
 
-Parsing of macros is not yet working, and control of mythTV is not yet tested. network and LIRC control
-of Remote Commander is not yet functional.
+Macros work, and allow you to have a command from any device run multiple commands in sequence or in parallel. 
+it is possible to have commands toggle through lists of commands, either to devices or other macros.
+
+Network socket communication is possible as well, currently tested with netcat, but will eventually be used by outside clients as well.
